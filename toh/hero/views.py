@@ -8,7 +8,12 @@ from json.decoder import JSONDecodeError
 from .models import Hero
 
 def index(request):
-    return HttpResponse('Hello, world!\n')
+    if 'visit_count' not in request.session:
+        request.session['visit_count'] = 1
+    else:
+        request.session['visit_count'] += 1
+
+    return HttpResponse('Hello, world! You visited {} times.\n'.format(request.session['visit_count']))
 
 def id(request, id):
     return HttpResponse(f'Your id is {id}!')
@@ -54,5 +59,5 @@ def hero_list(request):
         hero.save()
         response_dict = {'id': hero.id, 'name': hero.name, 'age': hero.age}
         return JsonResponse(response_dict, status=201)
-    else: 
+    else:
         return HttpResponseNotAllowed(["GET", "POST"])

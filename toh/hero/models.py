@@ -7,7 +7,7 @@ class Hero(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def introduce(self):
         print(f'Hello, my name is {self.name} and my score is {self.score}')
 
